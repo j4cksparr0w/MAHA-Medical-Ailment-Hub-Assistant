@@ -1,11 +1,22 @@
 # MAHA — Medical Ailment Hub Assistant
 
-Educational medical management app built with **Streamlit** + **SQLAlchemy (ORM)** and **PostgreSQL** (Docker).
-Includes CRUD pages for **patients**, **medications**, **prescriptions/therapies**, **medical history**, and **specialist appointments**, plus an **Eager vs Lazy** loading demo (N+1).
+MAHA is an educational medical management application built with **Streamlit** and **SQLAlchemy (ORM)**, backed by **PostgreSQL** (Docker).  
+It provides a clean CRUD-based workflow for managing patients and related medical records, and includes a demo page that explains **LAZY vs EAGER loading** (N+1 queries).
 
-> Doctors are seeded on first run; CRUD is implemented for all other entities.
+## Key Features
+- **Patients (CRUD):** first/last name, OIB (unique), date of birth, gender, residence & domicile address
+- **Medications (CRUD):** unique name + description
+- **Prescriptions/Therapies (CRUD):** patient + doctor + medication, dosage (amount/unit), frequency, start/end dates, condition/indication
+- **Medical History (CRUD):** disease episodes (diagnosis, period, notes, optional doctor), patient filtering
+- **Specialist Appointments (CRUD):** patient, referring doctor, specialist doctor, exam type, scheduled date/time
+- **Eager vs Lazy Demo:** query counting + joinedload/selectinload examples
 
-## Run locally
+> Doctors are **seeded on first run**; CRUD is implemented for all other entities.
+
+## Tech Stack
+Python, Streamlit, SQLAlchemy, PostgreSQL (Docker), Alembic, python-dotenv, pandas
+
+## Run Locally
 ```bash
 docker compose up -d
 cp .env.example .env
