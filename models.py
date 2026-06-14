@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 from sqlalchemy import String, Integer, Date, DateTime, ForeignKey, Numeric, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from db import Base
@@ -19,7 +19,7 @@ class Patient(Base):
     first_name: Mapped[str] = mapped_column(String(80), nullable=False)
     last_name: Mapped[str] = mapped_column(String(80), nullable=False)
     oib: Mapped[str] = mapped_column(String(11), nullable=False, unique=True)
-    birth_date: Mapped[datetime] = mapped_column(Date, nullable=False)
+    birth_date: Mapped[date] = mapped_column(Date, nullable=False)
     gender: Mapped[str] = mapped_column(String(10), nullable=False)
     residence_address: Mapped[str] = mapped_column(String(255), nullable=False)
     domicile_address: Mapped[str] = mapped_column(String(255), nullable=False)
@@ -45,8 +45,8 @@ class Prescription(Base):
     dosage_amount: Mapped[float] = mapped_column(Numeric(10, 2), nullable=False)
     dosage_unit: Mapped[str] = mapped_column(String(30), nullable=False)
     frequency: Mapped[str] = mapped_column(String(60), nullable=False)
-    start_date: Mapped[datetime] = mapped_column(Date, nullable=False)
-    end_date: Mapped[datetime | None] = mapped_column(Date, nullable=True)
+    start_date: Mapped[date] = mapped_column(Date, nullable=False)
+    end_date: Mapped[date | None] = mapped_column(Date, nullable=True)
     patient = relationship("Patient", back_populates="prescriptions")
     doctor = relationship("Doctor", back_populates="prescriptions")
     medication = relationship("Medication", back_populates="prescriptions")
@@ -60,8 +60,8 @@ class DiseaseEpisode(Base):
     doctor_id: Mapped[int | None] = mapped_column(ForeignKey("doctors.id"), nullable=True)
 
     diagnosis: Mapped[str] = mapped_column(String(200), nullable=False)
-    start_date: Mapped[datetime] = mapped_column(Date, nullable=False)
-    end_date: Mapped[datetime | None] = mapped_column(Date, nullable=True)
+    start_date: Mapped[date] = mapped_column(Date, nullable=False)
+    end_date: Mapped[date | None] = mapped_column(Date, nullable=True)
     notes: Mapped[str | None] = mapped_column(Text, nullable=True)
 
 
@@ -74,5 +74,5 @@ class SpecialistAppointment(Base):
     referring_doctor_id: Mapped[int] = mapped_column(ForeignKey("doctors.id"), nullable=False)
     specialist_doctor_id: Mapped[int] = mapped_column(ForeignKey("doctors.id"), nullable=False)
 
-    exam_type: Mapped[str] = mapped_column(String(20), nullable=False)  # CT, MR, ...
+    exam_type: Mapped[str] = mapped_column(String(20), nullable=False)
     scheduled_at: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.utcnow)

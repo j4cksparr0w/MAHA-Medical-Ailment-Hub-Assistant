@@ -16,11 +16,9 @@ patients = list_patients()
 doctors = list_doctors()
 apps = list_appointments()
 
-# mapovi za prikaz imena
 patient_map = {p.id: f"{p.last_name} {p.first_name} ({p.oib})" for p in patients}
 doctor_map = {d.id: f"{d.last_name} {d.first_name} - {d.specialization}" for d in doctors}
 
-# --- LISTA PREGLEDA ---
 rows = []
 for a in apps:
     rows.append({
@@ -38,7 +36,6 @@ st.dataframe(df, width="stretch")
 
 st.divider()
 
-# --- DODAJ PREGLED ---
 st.subheader("Zakaži novi pregled")
 
 if not patients:
@@ -77,7 +74,6 @@ else:
 
 st.divider()
 
-# --- UREDI / OBRIŠI ---
 st.subheader("Uredi / Obriši pregled")
 
 if not apps:

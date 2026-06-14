@@ -25,7 +25,6 @@ chosen = st.selectbox("Prikaži povijest za", filter_options)
 
 patient_id = None
 if chosen != "Svi pacijenti":
-    # nađi id pacijenta po stringu
     patient_id = next(pid for pid, label in patient_map.items() if label == chosen)
 
 episodes = list_disease_episodes(patient_id)
@@ -51,7 +50,6 @@ st.subheader("Dodaj zapis u povijest bolesti")
 with st.form("add_episode", clear_on_submit=True):
     p_choice = st.selectbox("Pacijent*", options=patients, format_func=lambda p: patient_map[p.id])
 
-    # doctor je opcionalan jer je doctor_id nullable
     doctor_choices = [None] + doctors
     d_choice = st.selectbox(
         "Liječnik (opcionalno)",
@@ -105,7 +103,6 @@ else:
             )
 
             doctor_choices = [None] + doctors
-            # index za trenutnog liječnika (ili None)
             if selected.doctor_id is None:
                 idx = 0
             else:

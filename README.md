@@ -1,25 +1,21 @@
 # MAHA - Medical Ailment Hub Assistant
 
-MAHA is a Streamlit-based medical data management application built with Python, PostgreSQL, SQLAlchemy, and Alembic. The application is designed as a portfolio/student project for managing patients, medications, therapies, disease history records, and specialist appointments through a simple multi-page web interface.
+MAHA is a Streamlit medical data management application built with Python, PostgreSQL, SQLAlchemy ORM and Alembic. It was created as a student/portfolio project for managing patients, medications, therapies, disease history records and specialist appointments through a simple multi-page interface.
 
 > This project is intended for educational and portfolio purposes only. It should not be used with real patient data or as a production medical system.
 
-## Repository description
-
-Python Streamlit medical management app with PostgreSQL, SQLAlchemy ORM, Alembic migrations, patient CRUD, medication tracking, therapy records, disease history, appointments, and eager/lazy loading demo.
-
 ## Features
 
-- Patient management with search, create, update, and delete functionality
-- Medication management with unique medication names
-- Therapy and prescription records connected to patients, doctors, and medications
-- Disease history tracking with diagnosis, dates, optional doctor, and notes
-- Specialist appointment scheduling with referral and specialist doctor relationships
-- PostgreSQL database support through SQLAlchemy ORM
-- Alembic database migrations
+- Patient CRUD with search by first name, last name or OIB
+- Medication CRUD with unique medication names
+- Therapy records connected to patients, doctors and medications
+- Disease history records with diagnosis, dates, optional doctor and notes
+- Specialist appointment scheduling with referring and specialist doctors
+- PostgreSQL database access through SQLAlchemy ORM
+- Alembic migrations for database schema versioning
 - Docker Compose setup for local PostgreSQL development
-- Streamlit multi-page interface
-- Eager vs lazy loading demonstration for ORM query behavior
+- Streamlit multi-page UI
+- Eager vs lazy loading demo for ORM query behavior
 - Basic seed data for default doctors
 
 ## Tech stack
@@ -32,7 +28,7 @@ Python Streamlit medical management app with PostgreSQL, SQLAlchemy ORM, Alembic
 - Pandas
 - Docker Compose
 - python-dotenv
-- psycopg2
+- psycopg2-binary
 
 ## Project structure
 
@@ -65,19 +61,15 @@ MAHA-Medical-Ailment-Hub-Assistant/
 
 ## Requirements
 
-Before running the project, install:
-
 - Python 3.11 or newer
 - Docker Desktop
 - Git
 
-The project was developed as a local Streamlit application using PostgreSQL as the database backend.
-
 ## Environment variables
 
-The application uses environment variables from a `.env` file.
+The application reads database settings from a local `.env` file. The real `.env` file must not be committed.
 
-Create your own `.env` file in the root folder by copying `.env.example`:
+Create it from the example file:
 
 ```bash
 cp .env.example .env
@@ -90,8 +82,6 @@ DB_TARGET=local
 DATABASE_URL_LOCAL=postgresql+psycopg2://meduser:medpass@localhost:5432/meddb
 DATABASE_URL_SUPABASE=
 ```
-
-Do not commit the real `.env` file to GitHub.
 
 ## Local setup
 
@@ -124,21 +114,13 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. Create the `.env` file
-
-```bash
-cp .env.example .env
-```
-
-On Windows, you can also manually copy `.env.example`, rename the copy to `.env`, and edit it in a text editor.
-
-### 5. Start PostgreSQL with Docker Compose
+### 4. Start PostgreSQL
 
 ```bash
 docker compose up -d
 ```
 
-This starts a local PostgreSQL container with:
+Local database settings from `docker-compose.yml`:
 
 ```text
 Database: meddb
@@ -147,19 +129,19 @@ Password: medpass
 Port: 5432
 ```
 
-### 6. Run database migrations
+### 5. Run migrations
 
 ```bash
 alembic upgrade head
 ```
 
-### 7. Run the Streamlit app
+### 6. Run the app
 
 ```bash
 streamlit run app.py
 ```
 
-The application should open in your browser at:
+The app opens at:
 
 ```text
 http://localhost:8501
@@ -167,20 +149,18 @@ http://localhost:8501
 
 ## Database model overview
 
-The database contains the following main entities:
+Main entities:
 
-- `Doctor` - default doctors seeded when the app starts
-- `Patient` - patient personal and address information
-- `Medication` - medication catalog
-- `Prescription` - therapy records connected to patient, doctor, and medication
-- `DiseaseEpisode` - disease history entries
-- `SpecialistAppointment` - scheduled specialist appointments
+- `Doctor`
+- `Patient`
+- `Medication`
+- `Prescription`
+- `DiseaseEpisode`
+- `SpecialistAppointment`
 
-Relationships are handled through SQLAlchemy foreign keys and ORM relationships.
+Relationships are handled with SQLAlchemy foreign keys and ORM relationships.
 
 ## Alembic migrations
-
-Alembic is used for database schema versioning.
 
 Apply existing migrations:
 
@@ -200,11 +180,11 @@ Apply the new migration:
 alembic upgrade head
 ```
 
-## Important security note
+## Security note
 
-This repository should not contain real environment files, production database credentials, real patient information, or private medical data.
+This repository must not contain real environment files, production database credentials, real patient information or private medical data.
 
-Before committing, make sure these files and folders are not included:
+Before committing, make sure these are not tracked:
 
 ```text
 .env

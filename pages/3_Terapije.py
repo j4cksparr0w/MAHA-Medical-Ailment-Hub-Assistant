@@ -9,7 +9,7 @@ from crud import (
     update_prescription, delete_prescription
 )
 
-st.title("Terapije (Recepti)")
+st.title("Terapije")
 
 patients = list_patients()
 doctors = list_doctors()

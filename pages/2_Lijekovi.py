@@ -63,7 +63,7 @@ else:
 
     with col2:
         st.markdown("### Obriši")
-        st.warning("Ako je lijek korišten u terapijama, brisanje može failati zbog FK veza.")
+        st.warning("Ako je lijek povezan s terapijama, prvo je potrebno obrisati povezane terapije.")
         if st.button("Obriši odabrani lijek"):
             if delete_medication(selected.id):
                 st.success("Obrisano.")

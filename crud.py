@@ -53,13 +53,11 @@ def delete_patient(patient_id: int) -> bool:
         return True
     
 
-# --- READ ONLY (doctors) ---
 def list_doctors():
     with SessionLocal() as db:
         stmt = select(Doctor).order_by(Doctor.last_name, Doctor.first_name)
         return db.execute(stmt).scalars().all()
 
-# --- APPOINTMENTS CRUD ---
 def list_appointments():
     with SessionLocal() as db:
         stmt = select(SpecialistAppointment).order_by(SpecialistAppointment.scheduled_at.desc())
@@ -93,7 +91,6 @@ def delete_appointment(appointment_id: int) -> bool:
         db.commit()
         return True
 
-# --- MEDICATIONS CRUD ---
 def list_medications(search: str | None = None):
     with SessionLocal() as db:
         stmt = select(Medication)
@@ -140,7 +137,6 @@ def delete_medication(medication_id: int) -> bool:
         return True
 
 
-# --- PRESCRIPTIONS (THERAPY) CRUD ---
 def list_prescriptions():
     with SessionLocal() as db:
         stmt = select(Prescription).order_by(Prescription.start_date.desc(), Prescription.id.desc())
@@ -173,8 +169,7 @@ def delete_prescription(prescription_id: int) -> bool:
         db.delete(p)
         db.commit()
         return True
-    
-    # --- DISEASE EPISODES (HISTORY) CRUD ---
+
 def list_disease_episodes(patient_id: int | None = None):
     with SessionLocal() as db:
         stmt = select(DiseaseEpisode).order_by(DiseaseEpisode.start_date.desc(), DiseaseEpisode.id.desc())

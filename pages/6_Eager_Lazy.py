@@ -36,7 +36,7 @@ with SessionLocal() as db, count_queries(capture_sql=show_sql) as qc:
 
     prescriptions = db.execute(stmt).scalars().all()
 
-    # Ovdje namjerno “diramo” povezane entitete da se vidi N+1 kod LAZY
+
     rows = []
     for p in prescriptions:
         rows.append({
@@ -53,17 +53,3 @@ st.info(f"Broj SQL upita u ovom renderu: **{qc['n']}**")
 st.dataframe(pd.DataFrame(rows), width="stretch")
 if show_sql:
     st.code("\n\n---\n\n".join(qc["sql"]), language="sql")
-
-
-st.divider()
-st.markdown("""
-### Objašnjenje (za obranu)
-
-- **Lazy loading**: povezani podaci se dohvaćaju tek kad pristupiš npr. `p.patient`.
-  - Prednost: ne vučeš povezane podatke ako ti ne trebaju.
-  - Mana: često nastane **N+1 problem** (1 upit za liste + dodatni upiti za svaku vezu).
-
-- **Eager loading**: povezana data se dohvaća odmah u startu.
-  - `joinedload`: radi JOIN i vraća sve u jednom (može biti “teže” ako ima puno redova).
-  - `selectinload`: radi 1 upit za osnovno + par dodatnih “IN (...)” upita za veze (često najbolji kompromis).
-""")
